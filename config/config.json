@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "Qwwe020410@@",
-    "database": "online_bookstore",
+    "database": "sensor",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "timezone": "+09:00"
