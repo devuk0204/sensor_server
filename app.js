@@ -11,8 +11,6 @@ const cors = require("cors");
 
 dotenv.config();
 const pageRouter = require('./routes/page');
-const sensorRouter = require('./routes/sensor');
-const plantRouter = require('./routes/plant');
 const { sequelize } = require('./models');
 
 const app = express();
@@ -47,10 +45,6 @@ app.use(session({
 // app.use(passport.session());
 
 app.use('/', pageRouter);
-// app.use('/plant', plantRouter);
-
-// app.use('/auth', authRouter);
-// app.use('/user', userRouter);
 
 app.use((req, res, next) => {
   const error =  new Error(`${req.method} ${req.url} 라우터가 없습니다.`);

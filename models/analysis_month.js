@@ -11,6 +11,10 @@ module.exports = class Analysis_month extends Sequelize.Model {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      p_height: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
       humidity: {
         type: Sequelize.INTEGER,
         allowNull: true,
