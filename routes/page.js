@@ -1,7 +1,7 @@
 const express = require('express');
 // const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const { Op } = require('sequelize');
-const { Sensor_plant, Analysis_result, Analysis_month, Analysis_minute } = require('../models');
+const { Sensor_plant, Analysis_result, Analysis_month, Analysis_minute, Plant } = require('../models');
 
 const router = express.Router();
 
@@ -55,11 +55,11 @@ router.get('/info', async(req, res, next) => {
 router.get('/environment', async(req, res, next) => {
   try{
     const plants = await Sensor_plant.findOne({});
-    const recommend = await Analysis_result.findOne({});
+    const recommend = await Plant.findOne({});
     let temp = plants.current_temperature;
-    let c_temp = recommend.recommend_temperature;
+    let c_temp = recommend.h_temperature;
     let humidity = plants.current_humidity;
-    let c_humidity = recommend.recommend_humidity;
+    let c_humidity = recommend.h_humidity;
     let t_difference = 0
     let t_higher = ''
     let c_difference = 0
@@ -111,7 +111,7 @@ router.post('/height', async(req, res) => {
         register_no: plants.register_no,
       },
     });
-    res.send({code: 304});
+    res.send({code: 'success'});
   } catch(error) {
     console.error(error);
     next(error);
