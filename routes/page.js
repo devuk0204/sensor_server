@@ -1,7 +1,7 @@
 const express = require('express');
 // const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const { Op } = require('sequelize');
-const { Sensor_plant, Analysis_result } = require('../models');
+const { Sensor_plant, Analysis_result, Analysis_month } = require('../models');
 
 const router = express.Router();
 
@@ -91,5 +91,31 @@ router.get('/environment', async(req, res, next) => {
   }
 });
 
-
+router.post('/height', async(req, res) => {
+  const { height } = req.body;
+  try {
+    const plants = await Sensor_plant.findOne({});
+    console.log(1)
+    await Analysis_month.create({
+      register_no: plants.register_no,
+      p_name: plants.p_name,
+      p_height: plants.p_height,
+      humidity: 1,
+      temperature: 1,
+      soil_humidity: 1,
+    });
+    console.log(2)
+    await Sensor_plant.update({
+      p_height: height
+    }, {
+      where: {
+        register_no: plants.register_no,
+      },
+    });
+    res.send({code: 304});
+  } catch(error) {
+    console.error(error);
+    next(error);
+  }
+});
 module.exports = router;
