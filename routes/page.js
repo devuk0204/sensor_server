@@ -21,6 +21,7 @@ const router = express.Router();
 
 router.get('/list', async(req, res, next) => {
   try{
+    console.log('-------------------------------------------');
     const plants = await Sensor_plant.findOne({});
     const result = {
       register_no: plants.register_no,
@@ -36,6 +37,7 @@ router.get('/list', async(req, res, next) => {
 
 router.get('/info', async(req, res, next) => {
   try{
+    console.log('-------------------------------------------');
     const plants = await Sensor_plant.findOne({});
     const result = {
       register_no: plants.register_no,
@@ -54,6 +56,7 @@ router.get('/info', async(req, res, next) => {
 
 router.get('/environment', async(req, res, next) => {
   try{
+    console.log('-------------------------------------------');
     const plants = await Sensor_plant.findOne({});
     const recommend = await Plant.findOne({});
     let temp = plants.current_temperature;
@@ -93,7 +96,8 @@ router.get('/environment', async(req, res, next) => {
 
 router.post('/height', async(req, res) => {
   const { height } = req.body;
-  console.log(height)
+  console.log('-------------------------------------------');
+  console.log(req.body)
   try {
     const plants = await Sensor_plant.findOne({});
     await Analysis_month.create({
