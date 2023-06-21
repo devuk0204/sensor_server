@@ -3,3 +3,7 @@ const express = require('express');
 const { Op } = require('sequelize');
 
 const router = express.Router();
+
+router.post('/', (req, res) => {
+    
+});
