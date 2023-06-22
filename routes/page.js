@@ -54,6 +54,49 @@ router.get('/info', async(req, res, next) => {
   }
 });
 
+router.get('/graph', async(req, res, next) => {
+  console.log('-------------------------------------------');
+  try {
+    
+    const plants = await Sensor_plant.findOne({});
+    const data = await Analysis_minute.findAll({
+      limit: 4,
+      where: {
+        register_no: plants.register_no,
+      }
+    });
+
+    const temperature = {
+      labels: [data[0].createdAt, data[1].createdAt, data[2].createdAt, data[3].createdAt],
+      datasets: [
+        {
+          data: [data[0].temperature, data[1].temperature, data[2].temperature, data[3].temperature]
+        }
+      ]
+    }
+    const humidity = {
+      labels: [data[0].createdAt, data[1].createdAt, data[2].createdAt, data[3].createdAt],
+      datasets: [
+        {
+          data: [data[0].humidity, data[1].humidity, data[2].humidity, data[3].humidity]
+        }
+      ]
+    }
+    const soil_humidity = {
+      labels: [data[0].createdAt, data[1].createdAt, data[2].createdAt, data[3].createdAt],
+      datasets: [
+        {
+          data: [data[0].soil_humidity, data[1].soil_humidity, data[2].soil_humidity, data[3].soil_humidity]
+        }
+      ]
+    }
+    res.send([temperature, humidity, soil_humidity]);
+  } catch(error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 router.get('/environment', async(req, res, next) => {
   try{
     console.log('-------------------------------------------');
@@ -94,7 +137,7 @@ router.get('/environment', async(req, res, next) => {
   }
 });
 
-router.post('/height', async(req, res) => {
+router.post('/height', async(req, res, next) => {
   const { height } = req.body;
   console.log('-------------------------------------------');
   console.log(req.body)
@@ -122,7 +165,7 @@ router.post('/height', async(req, res) => {
   }
 });
 
-router.post('/sensor', async(req, res) => {
+router.post('/sensor', async(req, res, next) => {
   const { temperature, humidity, soil_humidity } = req.body;
   console.log('-------------------------------------------');
   console.log(req.body);
